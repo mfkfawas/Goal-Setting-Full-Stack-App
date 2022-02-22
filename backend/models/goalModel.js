@@ -1,24 +1,20 @@
 const mongoose = require('mongoose');
 
-const goalSchema = new mongoose.Schema(
+const goalSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
       required: true,
+      ref: 'User',
     },
     text: {
       type: String,
-      required: [true, 'Please add a text value.'],
+      required: [true, 'Please add a text value'],
     },
   },
-
-  //schema options:
   {
-    //create an 'updatedAt' & 'createdAt' field automatically.
     timestamps: true,
   }
 );
 
-const Goal = mongoose.model('Goal', goalSchema);
-module.exports = Goal;
+module.exports = mongoose.model('Goal', goalSchema);

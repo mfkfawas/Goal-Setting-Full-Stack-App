@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { FaSignInAlt } from 'react-icons/fa';
-//useSelector - to select something from the state,
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-//to use react toastify, couple of things to be done in app.js
 import { toast } from 'react-toastify';
 import { login, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
 
-const Login = () => {
+function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
+  const { email, password } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,18 +20,16 @@ const Login = () => {
   const { user, isLoading, isError, isSuccess, message } =
     useSelector(state => state.auth);
 
-  const { email, password } = formData;
-
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
 
-    if (isSuccess) {
+    if (isSuccess || user) {
       navigate('/');
     }
 
-    dispatch(reset);
+    dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = e => {
@@ -62,7 +60,7 @@ const Login = () => {
         <h1>
           <FaSignInAlt /> Login
         </h1>
-        <p>Login and Start Setting Goals</p>
+        <p>Login and start setting goals</p>
       </section>
 
       <section className='form'>
@@ -73,8 +71,8 @@ const Login = () => {
               className='form-control'
               id='email'
               name='email'
-              placeholder='Enter your Email'
               value={email}
+              placeholder='Enter your email'
               onChange={onChange}
             />
           </div>
@@ -84,8 +82,8 @@ const Login = () => {
               className='form-control'
               id='password'
               name='password'
-              placeholder='Enter your Password'
               value={password}
+              placeholder='Enter password'
               onChange={onChange}
             />
           </div>
@@ -99,6 +97,6 @@ const Login = () => {
       </section>
     </>
   );
-};
+}
 
 export default Login;
